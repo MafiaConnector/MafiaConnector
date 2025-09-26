@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan = "true" scanPeriod="1 minutes">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+<!--        <withJansi>true</withJansi>-->
+        <encoder>
+            <pattern>%gray([%d{HH:mm:ss.SSS}]) %magenta(%-10.-6thread) %boldGreen(%-3.-15logger{0}) %highlight(%-3level) [%marker] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/latest.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd-HH:mm:ss:SSS} %logger{0} %-3level %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>LOGIN</marker>
+                <marker>ANNOUNCEMENT</marker>
+                <marker>FRIEND_CHAT</marker>
+                <marker>ITEM</marker>
+                <marker>ROOM</marker>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </evaluator>
+        </filter>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
