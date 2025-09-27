@@ -14,6 +14,7 @@ import static com.ksk.mf.packet.PacketId.RESPONSE_ROOM_LIST;
 
 public class RoomListEvent implements EventHandler {
     private final Marker marker = MarkerFactory.getMarker("ROOM");
+    private final boolean hideEmpty = System.getenv("HIDE_EMPTY_ROOM_NAME") != null && Boolean.parseBoolean(System.getenv("HIDE_EMPTY_ROOM_NAME"));
 
     @Override
     public int responseCode() {
@@ -30,9 +31,12 @@ public class RoomListEvent implements EventHandler {
         RoomListResponsePacket roomList = (RoomListResponsePacket) packet;
         List<Room> rooms = roomList.getRoomList();
         for (Room room : rooms) {
-            log.debug(marker, "{}번방, 방제 : {}, 플레이중: {}, 방 타입: {}, 방 스킨: {}, 익명: {}, 비번방: {}",
+            if(hideEmpty && " ".equals(room.getRoomName())) {
+                continue;
+            }
+            log.debug(marker, "{}번방, 방제 : {}, 플레이중: {}, 방 타입: {}, 방 스킨: {}, 익명: {}, 비번방: {}, {} / {}",
                     room.getRoomIndex(), room.getRoomName(), room.isPlaying(),
-                    room.getRoomType().name(), room.getRoomSkin().name(), room.isAnonymous(), room.isLocked());
+                    room.getRoomType().name(), room.getRoomSkin().name(), room.isAnonymous(), room.isLocked(), room.getUserCount(), room.getMaxUser());
         }
     }
 }
