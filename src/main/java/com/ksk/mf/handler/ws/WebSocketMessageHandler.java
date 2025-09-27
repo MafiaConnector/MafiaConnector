@@ -16,8 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
-import static com.ksk.mf.packet.PacketId.REQUEST_PING_CHECK;
-import static com.ksk.mf.packet.PacketId.REQUEST_VERSION_CHECK;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
+
+import static com.ksk.mf.packet.PacketId.*;
 
 public class WebSocketMessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
     private final Logger logger = LoggerFactory.getLogger(WebSocketMessageHandler.class);
@@ -59,6 +63,7 @@ public class WebSocketMessageHandler extends SimpleChannelInboundHandler<WebSock
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         logger.info(marker, "WebSocket Connection Active");
+        scheduleDailyTask(ctx);
     }
 
     @Override
@@ -70,5 +75,22 @@ public class WebSocketMessageHandler extends SimpleChannelInboundHandler<WebSock
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         logger.error(marker, "Exception caught in WebSocketMessageHandler: ", cause);
         ctx.close();
+    }
+
+    private void scheduleDailyTask(ChannelHandlerContext ctx) {
+        LocalTime targetTime = LocalTime.of(19, 10);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime nextRun = now.with(targetTime);
+
+        if (now.isAfter(nextRun)) {
+            nextRun = nextRun.plusDays(1);
+        }
+
+        long initialDelay = ChronoUnit.MILLIS.between(now, nextRun);
+
+        ctx.channel().eventLoop().scheduleAtFixedRate(() ->
+                new RequestPacket(REQUEST_LIMITED_ITEM_LIST).sendPacket(ctx)
+                , initialDelay, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+
     }
 }
