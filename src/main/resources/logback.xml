@@ -29,6 +29,7 @@
                 <marker>FRIEND_CHAT</marker>
                 <marker>ITEM</marker>
                 <marker>ROOM</marker>
+                <marker>POSTCARD</marker>
                 <onMatch>ACCEPT</onMatch>
                 <onMismatch>DENY</onMismatch>
             </evaluator>

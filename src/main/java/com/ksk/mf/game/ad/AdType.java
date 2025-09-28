@@ -1,4 +1,4 @@
-package com.ksk.mf.ad;
+package com.ksk.mf.game.ad;
 
 public enum AdType {
     NORMAL(1, "일반 확성기"),

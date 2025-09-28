@@ -1,6 +1,6 @@
 package com.ksk.mf.packet.response.impl.ad;
 
-import com.ksk.mf.ad.AdType;
+import com.ksk.mf.game.ad.AdType;
 import com.ksk.mf.packet.response.ResponsePacket;
 import io.netty.buffer.ByteBuf;
 

@@ -1,9 +1,9 @@
 package com.ksk.mf.packet.response.impl.room;
 
 import com.ksk.mf.packet.response.ResponsePacket;
-import com.ksk.mf.room.Room;
-import com.ksk.mf.room.RoomSkin;
-import com.ksk.mf.room.RoomType;
+import com.ksk.mf.game.room.Room;
+import com.ksk.mf.game.room.RoomSkin;
+import com.ksk.mf.game.room.RoomType;
 import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.StandardCharsets;

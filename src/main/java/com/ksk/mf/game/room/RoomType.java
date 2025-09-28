@@ -1,4 +1,4 @@
-package com.ksk.mf.room;
+package com.ksk.mf.game.room;
 
 public enum RoomType {
     MAFIA_NORMAL(1),

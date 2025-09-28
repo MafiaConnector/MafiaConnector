@@ -3,7 +3,7 @@ package com.ksk.mf.events.room;
 import com.ksk.mf.events.EventHandler;
 import com.ksk.mf.packet.response.ResponsePacket;
 import com.ksk.mf.packet.response.impl.room.RoomListResponsePacket;
-import com.ksk.mf.room.Room;
+import com.ksk.mf.game.room.Room;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;

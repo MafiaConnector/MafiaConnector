@@ -1,4 +1,4 @@
-package com.ksk.mf.item;
+package com.ksk.mf.game.item;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
