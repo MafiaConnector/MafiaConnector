@@ -1,6 +1,6 @@
 package com.ksk.mf.events.ad;
 
-import com.ksk.mf.ad.AdType;
+import com.ksk.mf.game.ad.AdType;
 import com.ksk.mf.events.EventHandler;
 import com.ksk.mf.packet.response.ResponsePacket;
 import com.ksk.mf.packet.response.impl.ad.AnnouncementResponsePacket;

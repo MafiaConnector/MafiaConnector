@@ -1,7 +1,7 @@
 package com.ksk.mf.events.item;
 
 import com.ksk.mf.events.EventHandler;
-import com.ksk.mf.item.LimitedItem;
+import com.ksk.mf.game.item.LimitedItem;
 import com.ksk.mf.packet.request.RequestPacket;
 import com.ksk.mf.packet.response.ResponsePacket;
 import com.ksk.mf.packet.response.impl.item.LimitedItemResponsePacket;

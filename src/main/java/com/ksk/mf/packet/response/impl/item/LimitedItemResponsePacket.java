@@ -1,6 +1,6 @@
 package com.ksk.mf.packet.response.impl.item;
 
-import com.ksk.mf.item.LimitedItem;
+import com.ksk.mf.game.item.LimitedItem;
 import com.ksk.mf.packet.response.ResponsePacket;
 import io.netty.buffer.ByteBuf;
 

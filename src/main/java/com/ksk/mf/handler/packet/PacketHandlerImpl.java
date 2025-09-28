@@ -3,6 +3,7 @@ package com.ksk.mf.handler.packet;
 import com.ksk.mf.events.EventHandler;
 import com.ksk.mf.events.ad.AnnouncementEvent;
 import com.ksk.mf.events.ad.FriendChatEvent;
+import com.ksk.mf.events.info.MafiaLoginInfoEvent;
 import com.ksk.mf.events.item.DailyAdEvent;
 import com.ksk.mf.events.item.LimitedItemEvent;
 import com.ksk.mf.events.item.ObtainItemEvent;
@@ -12,6 +13,7 @@ import com.ksk.mf.events.login.LoginFailedEvent;
 import com.ksk.mf.events.login.LoginSuccessEvent;
 import com.ksk.mf.events.login.LogoutEvent;
 import com.ksk.mf.events.mafiasafe.MafiaSafeEvent;
+import com.ksk.mf.events.postcard.PostcardMessageEvent;
 import com.ksk.mf.events.room.RoomListEvent;
 import com.ksk.mf.events.versioncheck.VersionCheckEvent;
 import com.ksk.mf.packet.response.ResponsePacket;
@@ -57,6 +59,10 @@ public class PacketHandlerImpl implements PacketHandler {
         this.addHandler(MafiaSafeEvent::new);
 
         this.addHandler(RoomListEvent::new);
+
+        this.addHandler(PostcardMessageEvent::new);
+
+        this.addHandler(MafiaLoginInfoEvent::new);
     }
 
     private void addHandler(Supplier<EventHandler> supplier) {
