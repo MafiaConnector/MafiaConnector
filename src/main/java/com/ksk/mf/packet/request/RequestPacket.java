@@ -20,6 +20,7 @@ public class RequestPacket implements Packet {
         this.context = context;
     }
 
+    @Deprecated
     public RequestPacket(int packetId) {
         this.packetId = packetId;
     }

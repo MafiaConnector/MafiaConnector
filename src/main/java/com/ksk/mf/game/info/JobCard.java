@@ -148,4 +148,13 @@ public class JobCard {
     public Map<Integer, Integer> getSkillMap() {
         return skillMap;
     }
+
+    @Override
+    public String toString() {
+        return "JobCard{" +
+                "tier=" + tier +
+                ", job=" + job +
+                ", skillMap=" + skillMap +
+                '}';
+    }
 }

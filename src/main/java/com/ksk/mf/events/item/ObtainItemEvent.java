@@ -24,7 +24,7 @@ public class ObtainItemEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        ObtainItemResponsePacket obtain = (ObtainItemResponsePacket) packet;
+        ObtainItemResponsePacket obtain = castAs(packet);
         int itemCode = obtain.getItemCode();
         int itemAmount = obtain.getItemAmount();
         int lotteryLevel = obtain.getLotteryLevel();

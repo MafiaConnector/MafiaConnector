@@ -31,7 +31,7 @@ public class AnnouncementEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        AnnouncementResponsePacket ad = (AnnouncementResponsePacket) packet;
+        AnnouncementResponsePacket ad = castAs(packet);
         log.info(marker, "{}, userId: {}, AdType: {}", ad.getMessage(), ad.getUserId(), ad.getAdType().getName());
         if (!filterPostcard || ad.getAdType() == AdType.SCHOOL)
             return;

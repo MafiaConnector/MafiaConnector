@@ -24,7 +24,7 @@ public class ObtainItemLotteryEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        ObtainItemLotteryResponsePacket lottery = (ObtainItemLotteryResponsePacket) packet;
+        ObtainItemLotteryResponsePacket lottery = castAs(packet);
         lottery.getObtains().forEach(item ->
                 log.info(marker, "아이템 수령[ItemCode: {}, ItemAmount: {}, LotteryLevel: {}, Additional: {}]", item.getItemCode(), item.getItemAmount(),
                         item.getLotteryLevel(), item.getAdditional()));

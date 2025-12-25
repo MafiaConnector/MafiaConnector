@@ -4,6 +4,7 @@ import com.ksk.mf.packet.request.RequestPacket;
 import com.ksk.mf.packet.request.impl.RoomListRequestPacket;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -20,10 +21,9 @@ public class InitializedHandler {
      * @code WebSocketMessageHandler.userEventTriggered() 에서 처리하도록 합시다.
      */
     private InitializedHandler() {
-        addRequest(() -> new RequestPacket(REQUEST_LIMITED_ITEM_LIST), checkEnv("CHECK_LIMITED_ITEM_LIST_ON_INIT"));
+        //addRequest(() -> new RequestPacket(REQUEST_LIMITED_ITEM_LIST), checkEnv("CHECK_LIMITED_ITEM_LIST_ON_INIT"));
         addRequest(() -> new RoomListRequestPacket(true), checkEnv("CHECK_ROOM_LIST_ON_INIT"));
         addRequest(() -> new RequestPacket(REQUEST_CODE_POSTCARD_ALERT_LIST), checkEnv("CHECK_POSTCARD_ALERT_ON_INIT"));
-        addRequest(() -> new RequestPacket(REQUEST_USERINFO), checkEnv("CHECK_USERINFO_ON_INIT"));
     }
 
     public void addRequest(Supplier<RequestPacket> packet, boolean test) {
@@ -33,7 +33,7 @@ public class InitializedHandler {
     }
 
     public List<RequestPacket> getInitPackets() {
-        return this.requestPackets;
+        return Collections.unmodifiableList(requestPackets);
     }
 
     private boolean checkEnv(String env) {

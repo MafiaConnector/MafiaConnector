@@ -1,34 +1,21 @@
 package com.ksk.mf.handler.packet;
 
 import com.ksk.mf.events.EventHandler;
-import com.ksk.mf.events.ad.AnnouncementEvent;
-import com.ksk.mf.events.ad.FriendChatEvent;
-import com.ksk.mf.events.info.MafiaLoginInfoEvent;
-import com.ksk.mf.events.item.DailyAdEvent;
-import com.ksk.mf.events.item.LimitedItemEvent;
-import com.ksk.mf.events.item.ObtainItemEvent;
-import com.ksk.mf.events.item.ObtainItemLotteryEvent;
-import com.ksk.mf.events.login.LoginAskEvent;
-import com.ksk.mf.events.login.LoginFailedEvent;
-import com.ksk.mf.events.login.LoginSuccessEvent;
-import com.ksk.mf.events.login.LogoutEvent;
-import com.ksk.mf.events.mafiasafe.MafiaSafeEvent;
-import com.ksk.mf.events.postcard.PostcardMessageEvent;
-import com.ksk.mf.events.room.RoomListEvent;
-import com.ksk.mf.events.versioncheck.VersionCheckEvent;
 import com.ksk.mf.packet.response.ResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.Set;
 
 public class PacketHandlerImpl implements PacketHandler {
     private static final Logger log = LoggerFactory.getLogger(PacketHandlerImpl.class);
@@ -40,35 +27,35 @@ public class PacketHandlerImpl implements PacketHandler {
     }
 
     private void initHandlers() {
-        this.addHandler(ObtainItemEvent::new);
-        this.addHandler(ObtainItemLotteryEvent::new);
+        Reflections reflections = new Reflections("com.ksk.mf.events");
+        Set<Class<? extends EventHandler>> handlerClasses = reflections.getSubTypesOf(EventHandler.class);
 
-        this.addHandler(LimitedItemEvent::new);
-        this.addHandler(DailyAdEvent::new);
-        // TODO 매 7시마다 우편함 체크 하는 코드 추가 필요함
-        this.addHandler(FriendChatEvent::new);
-        this.addHandler(AnnouncementEvent::new);
+        log.info("Found {} EventHandler implementations", handlerClasses.size());
 
-        this.addHandler(VersionCheckEvent::new);
+        for (Class<? extends EventHandler> handlerClass : handlerClasses) {
+            // 추상 클래스나 인터페이스는 스킵
+            if (Modifier.isAbstract(handlerClass.getModifiers()) || handlerClass.isInterface()) {
+                continue;
+            }
 
-        this.addHandler(LoginFailedEvent::new);
-        this.addHandler(LoginSuccessEvent::new);
-        this.addHandler(LoginAskEvent::new);
-        this.addHandler(LogoutEvent::new);
+            try {
+                Constructor<? extends EventHandler> constructor = handlerClass.getDeclaredConstructor();
+                constructor.setAccessible(true);
+                EventHandler handler = constructor.newInstance();
 
-        this.addHandler(MafiaSafeEvent::new);
+                handlers.add(handler);
+                packetMap.put(handler.responseCode(), handler.responsePacket());
 
-        this.addHandler(RoomListEvent::new);
+                log.debug("Registered handler: {} for packet code: {}",
+                    handlerClass.getSimpleName(), handler.responseCode());
+            } catch (NoSuchMethodException e) {
+                log.warn("Handler {} does not have a default constructor", handlerClass.getSimpleName());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                log.error("Failed to instantiate handler: {}", handlerClass.getSimpleName(), e);
+            }
+        }
 
-        this.addHandler(PostcardMessageEvent::new);
-
-        this.addHandler(MafiaLoginInfoEvent::new);
-    }
-
-    private void addHandler(Supplier<EventHandler> supplier) {
-        EventHandler handler = supplier.get();
-        handlers.add(handler);
-        packetMap.put(handler.responseCode(), handler.responsePacket());
+        log.info("Successfully registered {} handlers", handlers.size());
     }
 
     @Override
@@ -106,8 +93,12 @@ public class PacketHandlerImpl implements PacketHandler {
     public void handlePacket(ChannelHandlerContext ctx, ResponsePacket packet) {
         for (EventHandler handler : handlers) {
             if (handler.responseCode() == packet.getPacketId()) {
-                handler.handleEvent(ctx, packet);
-                return;
+                try {
+                    handler.handleEvent(ctx, packet);
+                    return;
+                } catch(Exception e) {
+                    log.error("Error while handling packet!", e);
+                }
             }
         }
     }

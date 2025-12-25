@@ -23,7 +23,7 @@ public class MafiaSafeEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        MafiaSafeResponsePacket safe = ((MafiaSafeResponsePacket) packet);
+        MafiaSafeResponsePacket safe = castAs(packet);
         String nickname = safe.getNickname();
         log.info(marker, "마피아 세이프 인증[닉네임 : {}]", nickname);
         boolean isSafe = safe.isSafe();

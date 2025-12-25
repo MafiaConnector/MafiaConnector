@@ -23,7 +23,7 @@ public class FriendChatEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        FriendChatResponsePacket friend = (FriendChatResponsePacket) packet;
+        FriendChatResponsePacket friend = castAs(packet);
         log.info(marker, "접챗[{} : {}]", friend.getSender(), friend.getMessage());
     }
 }

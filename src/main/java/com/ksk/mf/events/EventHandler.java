@@ -10,4 +10,8 @@ public interface EventHandler {
     int responseCode();
     Class<? extends ResponsePacket> responsePacket();
     void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet);
+    @SuppressWarnings("unchecked")
+    default <T extends ResponsePacket> T castAs(ResponsePacket packet) {
+        return (T) packet;
+    }
 }

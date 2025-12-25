@@ -1,7 +1,9 @@
 package com.ksk.mf.game.info;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MafiaLoginInfo extends LoginInfo{
     private int exp;
@@ -51,6 +53,9 @@ public class MafiaLoginInfo extends LoginInfo{
     private String mentorNickname;
     private Map<Integer,JobCard> jobCardMap = new HashMap<>();
     private Map<Integer, Integer> currentSkinMap = new HashMap<>();
+    private Set<String> favoriteItems = new HashSet<>();
+
+    public MafiaLoginInfo() {}
 
     private MafiaLoginInfo(Builder builder) {
         // Copy LoginInfo fields directly if loginInfo is provided
@@ -69,7 +74,7 @@ public class MafiaLoginInfo extends LoginInfo{
             this.guildPoint = builder.loginInfo.getGuildPoint();
             this.frame = builder.loginInfo.getFrame();
             this.randomBoxAmount = builder.loginInfo.getRandomBoxAmount();
-            this.state = builder.loginInfo.getState();
+            this.online = builder.loginInfo.isOnline();
             this.guildLevel = builder.loginInfo.getGuildLevel();
             this.id = builder.loginInfo.getId();
             this.nameTag = builder.loginInfo.getNameTag();
@@ -140,6 +145,63 @@ public class MafiaLoginInfo extends LoginInfo{
         this.mentorNickname = builder.mentorNickname;
         this.jobCardMap = builder.jobCardMap != null ? new HashMap<>(builder.jobCardMap) : new HashMap<>();
         this.currentSkinMap = builder.currentSkinMap != null ? new HashMap<>(builder.currentSkinMap) : new HashMap<>();
+        this.favoriteItems = builder.favoriteItems != null ? new HashSet<>(builder.favoriteItems) : new HashSet<>();
+    }
+
+    @Override
+    public String toString() {
+        return "MafiaLoginInfo{" +
+                "exp=" + exp +
+                ", win=" + win +
+                ", lose=" + lose +
+                ", rankPoint=" + rankPoint +
+                ", coupleId=" + coupleId +
+                ", coupleColor=" + coupleColor +
+                ", coupleDateCount=" + coupleDateCount +
+                ", officialJobScore=" + officialJobScore +
+                ", hasNewGuildChat=" + hasNewGuildChat +
+                ", ranking=" + ranking +
+                ", deathCauseType=" + deathCauseType +
+                ", rankPointDuel=" + rankPointDuel +
+                ", mentorId=" + mentorId +
+                ", profileFrame=" + profileFrame +
+                ", recentEnteredJob=" + recentEnteredJob +
+                ", currentGem=" + currentGem +
+                ", curSkinTheme=" + curSkinTheme +
+                ", curNameTagBgColor=" + curNameTagBgColor +
+                ", isHiddenGem=" + isHiddenGem +
+                ", isDeckOpen=" + isDeckOpen +
+                ", isMentor=" + isMentor +
+                ", deathCause='" + deathCause + '\'' +
+                ", coupleNickname='" + coupleNickname + '\'' +
+                ", mentorNickname='" + mentorNickname + '\'' +
+                ", jobCardMap=" + jobCardMap +
+                ", currentSkinMap=" + currentSkinMap +
+                ", fame=" + fame +
+                ", nicknameColor=" + nicknameColor +
+                ", newFriendChat=" + newFriendChat +
+                ", guildInitialColor=" + guildInitialColor +
+                ", guildInitialBackgroundColor=" + guildInitialBackgroundColor +
+                ", guildId=" + guildId +
+                ", guildPoint=" + guildPoint +
+                ", frame=" + frame +
+                ", online=" + online +
+                ", guildLevel=" + guildLevel +
+                ", id=" + id +
+                ", curNameTag=" + curNameTag +
+                ", curCollection=" + curCollection +
+                ", curCollection2=" + curCollection2 +
+                ", curCollection3=" + curCollection3 +
+                ", lastLoginTime=" + lastLoginTime +
+                ", isFriend=" + isFriend +
+                ", isPostcardSent=" + isPostcardSent +
+                ", userName='" + userName + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", guildInitial='" + guildInitial + '\'' +
+                ", guildName='" + guildName + '\'' +
+                ", inventory=" + inventory +
+                ", favoriteItems=" + favoriteItems +
+                '}';
     }
 
     public static Builder mafiaBuilder() {
@@ -197,6 +259,7 @@ public class MafiaLoginInfo extends LoginInfo{
         private String mentorNickname;
         private Map<Integer,JobCard> jobCardMap = new HashMap<>();
         private Map<Integer, Integer> currentSkinMap = new HashMap<>();
+        private Set<String> favoriteItems = new HashSet<>();
 
         public Builder exp(int exp) {
             this.exp = exp;
@@ -453,6 +516,16 @@ public class MafiaLoginInfo extends LoginInfo{
             return this;
         }
 
+        public Builder favoriteItems(Set<String> favoriteItems) {
+            this.favoriteItems = favoriteItems;
+            return this;
+        }
+
+        public Builder addFavoriteItem(String item) {
+            this.favoriteItems.add(item);
+            return this;
+        }
+
         public Builder loginInfo(LoginInfo loginInfo) {
             this.loginInfo = loginInfo;
             return this;
@@ -650,5 +723,9 @@ public class MafiaLoginInfo extends LoginInfo{
 
     public Map<Integer, Integer> getCurrentSkinMap() {
         return currentSkinMap;
+    }
+
+    public Set<String> getFavoriteItems() {
+        return favoriteItems;
     }
 }

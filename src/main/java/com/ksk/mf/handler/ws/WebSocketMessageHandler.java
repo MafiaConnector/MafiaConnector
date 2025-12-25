@@ -1,5 +1,6 @@
 package com.ksk.mf.handler.ws;
 
+import com.ksk.mf.gui.GuiConnector;
 import com.ksk.mf.handler.packet.PacketHandler;
 import com.ksk.mf.handler.packet.PacketHandlerImpl;
 import com.ksk.mf.packet.request.RequestPacket;
@@ -63,6 +64,8 @@ public class WebSocketMessageHandler extends SimpleChannelInboundHandler<WebSock
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         logger.info(marker, "WebSocket Connection Active");
+        // GUI에서 패킷을 보낼 수 있도록 컨텍스트 설정
+        GuiConnector.setCurrentContext(ctx);
         scheduleDailyTask(ctx);
     }
 

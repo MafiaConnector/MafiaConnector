@@ -25,7 +25,7 @@ public class DailyAdEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        DailyAdResponsePacket daily = (DailyAdResponsePacket) packet;
+        DailyAdResponsePacket daily = castAs(packet);
         new RequestPacket(REQUEST_DAILY_AD_CHECK_REWARDED, Long.toString(daily.getItemCode())).sendPacket(ctx);
         log.info(marker, "42잭팟 수령 완료.");
         new RequestPacket(REQUEST_LIMITED_ITEM_LIST).sendPacket(ctx);

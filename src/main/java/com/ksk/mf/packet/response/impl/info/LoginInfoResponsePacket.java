@@ -17,7 +17,10 @@ public class LoginInfoResponsePacket extends ResponsePacket {
     public void fromByteBuf(ByteBuf buf) {
         super.fromByteBuf(buf);
         int listSize = listSize();
-        assert listSize == 1;
+        if(listSize < 1) {
+            this.loginInfo = new LoginInfo();
+            return;
+        }
         LoginInfo.Builder builder = new LoginInfo.Builder();
         builder.ruble(buf.readInt())
                 .luna(buf.readInt())
@@ -33,7 +36,7 @@ public class LoginInfoResponsePacket extends ResponsePacket {
                 .guildPoint(buf.readInt())
                 .frame(buf.readInt())
                 .randomBoxAmount(buf.readInt())
-                .state(buf.readInt())
+                .online(buf.readInt())
                 .guildLevel(buf.readInt())
                 .id(buf.readLong())
                 .nameTag(buf.readLong())

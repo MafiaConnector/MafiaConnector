@@ -15,6 +15,10 @@ public class MafiaLoginInfoResponsePacket extends LoginInfoResponsePacket {
     @Override
     public void fromByteBuf(ByteBuf buf) {
         super.fromByteBuf(buf);
+        if(super.listSize() < 1) {
+            this.info = new MafiaLoginInfo();
+            return;
+        }
         MafiaLoginInfo.Builder builder = MafiaLoginInfo.mafiaBuilder();
         builder.loginInfo(getLoginInfo())
                 .exp(buf.readInt())
@@ -84,6 +88,10 @@ public class MafiaLoginInfoResponsePacket extends LoginInfoResponsePacket {
         int count2 = buf.readInt();
         for (int i = 0; i < count2; i++) {
             builder.addCurrentSkin(buf.readInt(), buf.readInt());
+        }
+        int count3 = buf.readInt();
+        for (int i = 0; i < count3; i++) {
+            builder.addFavoriteItem(buf.readCharSequence(buf.readInt(), StandardCharsets.UTF_8).toString());
         }
         this.info = builder.build();
     }

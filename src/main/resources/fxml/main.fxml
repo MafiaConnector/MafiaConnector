@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ksk.mf.gui.MainController">
+   <children>
+      <MenuBar VBox.vgrow="NEVER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Exit" onAction="#handleExit"/>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" onAction="#handleAbout"/>
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+
+      <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+         <tabs>
+            <Tab text="Connection">
+               <content>
+                  <VBox spacing="10.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Channel:" />
+                              <ComboBox fx:id="channelComboBox" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Device Key:" />
+                              <TextField fx:id="deviceKeyField" prefWidth="300.0" promptText="Leave empty to load from .env file" />
+                              <Button fx:id="loadDeviceKeyButton" text="Preview" onAction="#handleLoadDeviceKey" />
+                           </children>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Auth Token:" />
+                              <TextField fx:id="authTokenField" prefWidth="300.0" promptText="Leave empty to load from .env file" />
+                              <Button fx:id="loadAuthTokenButton" text="Preview" onAction="#handleLoadAuthToken" />
+                           </children>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="connectButton" text="Connect" onAction="#handleConnect" />
+                              <Button fx:id="disconnectButton" text="Disconnect" disable="true" onAction="#handleDisconnect" />
+                              <Label fx:id="connectionStatusLabel" text="Disconnected" />
+                           </children>
+                        </HBox>
+
+                        <Separator />
+
+                        <Label text="Connection Log:" />
+                        <TextArea fx:id="logTextArea" editable="false" prefHeight="300.0" wrapText="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <Tab text="User Info">
+               <content>
+                  <VBox spacing="10.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label text="Search User:" />
+                              <TextField fx:id="searchUserField" prefWidth="200.0" promptText="Enter username to search" />
+                              <Button fx:id="searchUserButton" text="Search" onAction="#handleSearchUser" />
+                              <Button fx:id="clearUserButton" text="Clear" onAction="#handleClearUser" />
+                           </children>
+                        </HBox>
+
+                        <Separator />
+
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="NEVER" minWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                              <Label fx:id="userNameLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                              <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                              <Label fx:id="userIdLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                              <Label text="연인:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                              <Label fx:id="loverLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                              <Label text="일수:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                              <Label fx:id="loverDateCountLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                              <Label text="접챗개수:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                              <Label fx:id="newFriendChatLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                              <Label text="Fame:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                              <Label fx:id="fameLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                              <Label text="Online:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                              <Label fx:id="onlineLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                              <Label text="Last Login:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                              <Label fx:id="lastLoginLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                              <Label text="소개:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                              <Label fx:id="introduceLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                           </children>
+                        </GridPane>
+
+                        <Separator />
+
+                        <Label text="Guild Info:" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="NEVER" minWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="Guild Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                              <Label fx:id="guildNameLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                              <Label text="Guild Level:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                              <Label fx:id="guildLevelLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                              <Label text="Guild Point:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                              <Label fx:id="guildPointLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</VBox>

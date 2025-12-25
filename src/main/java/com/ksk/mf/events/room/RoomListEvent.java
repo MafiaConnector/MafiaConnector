@@ -28,7 +28,7 @@ public class RoomListEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        RoomListResponsePacket roomList = (RoomListResponsePacket) packet;
+        RoomListResponsePacket roomList = castAs(packet);
         List<Room> rooms = roomList.getRoomList();
         for (Room room : rooms) {
             if(hideEmpty && " ".equals(room.getRoomName())) {

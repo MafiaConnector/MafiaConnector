@@ -28,7 +28,7 @@ public class LimitedItemEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        LimitedItemResponsePacket limited = (LimitedItemResponsePacket) packet;
+        LimitedItemResponsePacket limited = castAs(packet);
         if (limited.listSize() < 1) {
             log.info(marker, "우편함이 비어있습니다.");
             return;

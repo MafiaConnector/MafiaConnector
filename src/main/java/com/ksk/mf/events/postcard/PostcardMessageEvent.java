@@ -26,7 +26,7 @@ public class PostcardMessageEvent implements EventHandler {
 
     @Override
     public void handleEvent(ChannelHandlerContext ctx, ResponsePacket packet) {
-        PostcardMessageResponsePacket responsePacket = (PostcardMessageResponsePacket) packet;
+        PostcardMessageResponsePacket responsePacket = castAs(packet);
         List<PostcardMessage> postcards = responsePacket.getPostcards();
         for (PostcardMessage postcard : postcards) {
             log.info(marker, "{} , {} , {}", postcard.getName(), postcard.getPostcard(), postcard.getUserId());

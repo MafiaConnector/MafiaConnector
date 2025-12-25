@@ -1,5 +1,8 @@
 package com.ksk.mf.game.info;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +21,7 @@ public class LoginInfo {
     protected int guildPoint;
     protected int frame;
     protected int randomBoxAmount;
-    protected int state;
+    protected boolean online;
     protected int guildLevel;
     protected long id;
     protected long nameTag;
@@ -30,7 +33,7 @@ public class LoginInfo {
     protected long collection3;
     protected long curCollection3;
     protected long emoticon;
-    protected long lastLoginTime;
+    protected LocalDateTime lastLoginTime;
     protected long facebookId;
     protected boolean isFriend;
     protected boolean isPostcardSent;
@@ -58,7 +61,7 @@ public class LoginInfo {
         this.guildPoint = builder.guildPoint;
         this.frame = builder.frame;
         this.randomBoxAmount = builder.randomBoxAmount;
-        this.state = builder.state;
+        this.online = builder.online;
         this.guildLevel = builder.guildLevel;
         this.id = builder.id;
         this.nameTag = builder.nameTag;
@@ -102,7 +105,7 @@ public class LoginInfo {
         private int guildPoint;
         private int frame;
         private int randomBoxAmount;
-        private int state;
+        private boolean online;
         private int guildLevel;
         private long id;
         private long nameTag;
@@ -114,7 +117,7 @@ public class LoginInfo {
         private long collection3;
         private long curCollection3;
         private long emoticon;
-        private long lastLoginTime;
+        private LocalDateTime lastLoginTime;
         private long facebookId;
         private boolean isFriend;
         private boolean isPostcardSent;
@@ -194,8 +197,8 @@ public class LoginInfo {
             return this;
         }
 
-        public Builder state(int state) {
-            this.state = state;
+        public Builder online(int online) {
+            this.online = online != 0;
             return this;
         }
 
@@ -255,7 +258,7 @@ public class LoginInfo {
         }
 
         public Builder lastLoginTime(long lastLoginTime) {
-            this.lastLoginTime = lastLoginTime;
+            this.lastLoginTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(lastLoginTime), ZoneId.systemDefault());
             return this;
         }
 
@@ -370,8 +373,8 @@ public class LoginInfo {
         return randomBoxAmount;
     }
 
-    public int getState() {
-        return state;
+    public boolean isOnline() {
+        return online;
     }
 
     public int getGuildLevel() {
@@ -418,7 +421,7 @@ public class LoginInfo {
         return emoticon;
     }
 
-    public long getLastLoginTime() {
+    public LocalDateTime getLastLoginTime() {
         return lastLoginTime;
     }
 
